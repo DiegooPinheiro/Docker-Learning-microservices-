@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  users-service:
+    build: ./users-service
+    container_name: users-service
+    ports:
+      - "3001:3001"
+    networks:
+      - ms-net
+
+  products-service:
+    build: ./products-service
+    container_name: products-service
+    ports:
+      - "3002:3002"
+    networks:
+      - ms-net
+
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - users-service
+      - products-service
+    networks:
+      - ms-net
+
+networks:
+  ms-net:
+    driver: bridge
