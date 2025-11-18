@@ -23,6 +23,17 @@ exports.getUser = (req, res) => {
   res.json(user);
 };
 
+//PUT /users/:id
+exports.updateUser = (req, res) => {
+  const { name, email } = req.body;
+  const user = users.find(u => u.id === req.params.id);
+  if (!user) return res.status(404).json({ error: 'User not found' });
+  if (name) user.name = name;
+  if (email) user.email = email;
+  user.updatedAt = new Date().toISOString();
+  res.json(user);
+};
+
 //DELETE /users/:id
 exports.deleteUser = (req, res) => {
   const index = users.findIndex(u => u.id === req.params.id);

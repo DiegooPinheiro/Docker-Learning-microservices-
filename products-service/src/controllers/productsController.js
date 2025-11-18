@@ -26,3 +26,13 @@ exports.deleteProduct = (req, res) => {
   products.splice(idx, 1);
   res.status(204).send();
 };
+
+exports.updateProduct = (req, res) => {
+  const { name, price } = req.body;
+  const p = products.find(x => x.id === req.params.id);
+  if(!p) return res.status(404).json({ error: 'Product not found' });
+  if(name) p.name = name;
+  if(price != null) p.price = price;
+  p.updatedAt = new Date().toISOString();
+  res.json(p);
+};
